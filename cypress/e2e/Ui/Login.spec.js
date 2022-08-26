@@ -6,7 +6,7 @@ describe('US001 - Funcionalidade: Login', () => {
         cy.visit('login')
     });
 
-    it.only('Deve fazer login com sucesso', () => {
+    it('Deve fazer login com sucesso', () => {
         cy.login('catherine.falvo@koiketec.com', 'C@t1012')
      })
 
@@ -14,7 +14,7 @@ describe('US001 - Funcionalidade: Login', () => {
         cy.get('[data-test="login-email"] > .MuiInputBase-root > .MuiInputBase-input').clear().type('cattmartins@hotmail.com')
         cy.get('[data-test="login-password"] > .MuiInputBase-root > .MuiInputBase-input').type('123456')
         cy.get('[data-test="login-submit"]').click() 
-        
+        cy.get('[data-test="alert"]').should('contain', 'Credenciais inválidas')
      })
  })
 
