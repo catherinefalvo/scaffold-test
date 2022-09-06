@@ -1,22 +1,37 @@
 /// <reference types="cypress" />
 
-describe('US001 - Funcionalidade: Login', () => {
+import usuarios from "../../fixtures/usuarios.json"
 
-    beforeEach(() => {
-        cy.visit('login')
-    });
+describe('US001 - Funcionalidade: Login', () => {
 
     it('Deve fazer login com sucesso', () => {
         cy.login('catherine.falvo@koiketec.com', 'C@t1012')
-     })
+     });
 
      it('validar mensagem de erro quando inserir usuario invalido', () => {
+        cy.visit('login')
         cy.get('[data-test="login-email"] > .MuiInputBase-root > .MuiInputBase-input').clear().type('cattmartins@hotmail.com')
         cy.get('[data-test="login-password"] > .MuiInputBase-root > .MuiInputBase-input').type('123456')
         cy.get('[data-test="login-submit"]').click() 
         cy.get('[data-test="alert"]').should('contain', 'Credenciais inválidas')
-     })
+     });
+
+     it('deve fazer login com sucesso -usando importação', () => {
+        cy.login(usuarios[0].email, usuarios[0].senha)
+        cy.get('[data-test="dashboard-welcome"]').should('contain', 'Bem-vindo')
+
+     });
+        
+     it('deve fazer login com sucesso - usando fixture', () => {
+        cy.fixture("usuarios").then((user) => {
+            cy.login(user[1].email, user[1].senha)
+        })
+        cy.title().should('eq', 'ConexaoQA')
+
+     });
+
  })
+
 
 /*
     Funcionalidade: Login
